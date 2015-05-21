@@ -47,26 +47,34 @@ p {
 
     
 div#columna {
+float: left;
 border-radius: 25px;
 background-color: #FFFFFF;
   border: solid 1px #000000;
-  position: absolute;
   left: 50px;
   top: 80px;
-  width: 200px;
-  height: 350px;
+  width: 15em;
+  height: 15em;
 }
  
+#centro
+{
+	margin: 0 auto;
+	width: 61em;
+}
  
 #contenido {
+float: right;
 margin: 0 auto;
 border-radius: 25px;
  background-color: #FFFFFF;
-  border: solid 5px #000000;
+  border: solid 0.1em #000000;
   overflow: hidden;
-  width: 800px;
+  width: 45.6em;
   height: 50em;
   padding: 1 5px;
+  padding: 0 0 0 5em;
+  box-sizing:border-box;
 }
  
 div#marco1, div#marco2, div#marco3 {
@@ -99,12 +107,8 @@ div#marco1, div#marco2, div#marco3 {
  opacity: .85; cursor: pointer;
  } 
  .bt:active { 
- border: 1px solid #20911e;
+ padding: 1.2em;
  box-shadow: 0 0 10px 5px #356b0b inset; 
- -webkit-box-shadow: 0 0 10px 5px #356b0b inset; 
- -moz-box-shadow: 0 0 10px 5px #356b0b inset; 
- -ms-box-shadow: 0 0 10px 5px #356b0b inset; 
- -o-box-shadow: 0 0 10px 5px #356b0b inset;
  } 
 
 

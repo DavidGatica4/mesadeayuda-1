@@ -31,12 +31,6 @@ function valida_envia(){
 var regexp = /^[0-9a-zA-Z._.-]+\@[0-9a-zA-Z._.-]+\.[0-9a-zA-Z]+$/;
 
 
-if (document.form.area.selectedIndex==0){
-alert("Tiene que seleccionar un Area ")
-document.form.area.focus()
-return 0;
-}
-
 if (document.form.espec.selectedIndex==0){
 alert("Tiene que seleccionar una especialidad ")
 document.form.espc.focus()
@@ -60,6 +54,7 @@ alert("tu consulta fue enviada ")
  
  
 <body>
+ <div id="centro">
 <h1>Mesa de ayuda secci&oacute;n usuario</h1>
  
 <div id="columna">
@@ -76,41 +71,13 @@ alert("tu consulta fue enviada ")
  
  
  
- 
+
 <div id="contenido">
 <div id="marco1">
 <br />
 <h2>Consultas anteriores </h2>
 <?php
-/*
-$sql="select * from tabla";
-$result= mysql_query($sql) or die(mysql_error());
-if(mysql_num_rows($result)==0) die("No hay registros para mostrar");
 
-
-echo "<table border=1 cellpadding=4 cellspacing=0>";
-
-
- echo "<tr>
-         <th colspan=5> Consultas </th>
-       <tr>
-         <th> IDc </th><th>fecha  </th><th>&Aacute;rea  </th>
-         <th> Especialidad</th><th> Respuesta</th>
-      </tr>";
-
-
-while($row=mysql_fetch_array($result))
-{
- echo "<tr>
-         <td align='right'> $row[idc] </td>
-         <td> $row[fecha] </td>
-         <td> $row[Area] </td>
-         <td> $row[especialidad] </td>
-         <td> $row[Respuesta] </td>
-      </tr>";
-}
-echo "</table>";
-*/
 ?>
 
 
@@ -152,7 +119,7 @@ echo "</table>";
                 $resultado = query($sql, $conexion);
 				
                 //Generamos el menu desplegable
-                echo '<select id=bajaselect name=area>';
+                echo '<select id="bajaselect" name="area">';
                 while ($campo = mysql_fetch_array($resultado)) {
                     echo '<option>' . $campo["area"] ;
                 }
@@ -162,20 +129,7 @@ echo "</table>";
 </tr>
 
 <tr>
-<td width="270" align="left" valign="top">
-<label for="espec">*Especialidad:</label>
-<?
-                $sql = "SELECT `especialidad` FROM `Trabajador` ORDER BY `especialidad`";
-                $resultado = query($sql, $conexion);
-				
-                //Generamos el menu desplegable
-                echo '<select id=bajaselect name=area>';
-                while ($campo = mysql_fetch_array($resultado)) {
-                    echo '<option>' . $campo["especialidad"] ;
-                }
-                echo '</select>';
-				?>
-</td>
+
 </tr>
 
 <tr>
@@ -193,7 +147,7 @@ echo "</table>";
 <tr>
 
 <td width="20" align="left" valign="top">&nbsp;</td>
-<td align="right" valign="top"><input name="Bot&oacute;n" type="button" onclick="valida_envia()" class="bt" id="Enviar" value="Enviar" / />
+<td align="center" valign="top"><input name="Bot&oacute;n" type="submit" onclick="valida_envia()" class="bt" id="Enviar" value="Enviar" / />
 <br /></td>
 </tr>
 </table></td>
@@ -214,6 +168,6 @@ echo "</table>";
 <h2>Cerrar sesi&oacute;n</h2>
  </div>
 </div>
- 
+ </div>
 </body>
 </html>
