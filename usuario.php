@@ -31,20 +31,6 @@ function valida_envia(){
 var regexp = /^[0-9a-zA-Z._.-]+\@[0-9a-zA-Z._.-]+\.[0-9a-zA-Z]+$/;
 
 
-if (document.form.nombre.value.length==0){
-alert("Tiene que escribir su nombre")
-document.form.nombre.focus()
-return 0;
-}
-if ((regexp.test(document.form.email.value) == 0) || (document.form.email.value.length = 0)){
-alert("Introduzca una dirección de email válida");
-document.form.email.focus();
-return 0;
-} else {
-var c_email=true;
-}
-
-
 if (document.form.area.selectedIndex==0){
 alert("Tiene que seleccionar un Area ")
 document.form.area.focus()
@@ -57,9 +43,11 @@ document.form.espc.focus()
 return 0;
 }
 
-
-
-
+if (document.form.desc.selectedIndex==0){
+alert("Tiene que seleccionar una descripcion")
+document.form.espc.focus()
+return 0;
+}
 
 
 //PAra enviar el formulario
@@ -130,7 +118,7 @@ echo "</table>";
  
 <div id="marco2">
 <h2>Realizar consulta </h2>
-<form id="form" name="form" method="POST" action="nueva_consulta.php">
+<form id="form" name="form" method="POST" action="especialidad.php">
 
 
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" top= "80px">
@@ -193,7 +181,7 @@ echo "</table>";
 <tr>
 <td width="250" align="left" valign="top">&nbsp;
 <label for="message">Descripci&oacute;n:</label> 
-<textarea name="message" cols="40" rows="6" required></textarea>	
+<textarea name="descripcion" cols="40" rows="6"></textarea>	
 </label>
 </td>
 </tr>
