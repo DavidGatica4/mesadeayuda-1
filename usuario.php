@@ -15,7 +15,13 @@
 ?>
 
 <!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="images/icono.ico">
 <meta http-equiv="Content-Type" content="text/html"/>
+  <title>Usuario</title>
+  <link rel="stylesheet" type="text/css" href="estiloUsuario.css" />
+</head>
  <script type="text/javascript">
 
 
@@ -65,18 +71,6 @@ alert("tu consulta fue enviada ")
 </script>
  
  
- 
- 
- 
- 
- 
- 
- 
- 
-<head>
-  <title>Usuario</title>
-  <link rel="stylesheet" type="text/css" href="estiloUsuario.css" />
-</head>
 <body>
 <h1>Mesa de ayuda secci&oacute;n usuario</h1>
  
@@ -84,7 +78,9 @@ alert("tu consulta fue enviada ")
 <h2>Men&uacute;</h2>
 <ul>
   <li><a href="#marco1">Consultas Anteriores</a></li>
+  <br>
   <li><a href="#marco2">Realizar consulta</a></li>
+  <br>
   <li><a href="#marco3">Cerrar sesi&oacute;n </a></li>
 </ul>
 </div>
