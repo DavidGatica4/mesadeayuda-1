@@ -1,5 +1,5 @@
 <?php
-@session_start();
+session_start();
 
 //incluimos el archivo con las funciones
 include ("funciones_mysql.php");
@@ -15,7 +15,10 @@ $password = $_SESSION['password'];
 $usuario = 'ninguno';
 $pass = 'ninguno';
 
-
+    if ($usuario == "ninguno" AND $pass=="ninguno") {
+		header("Location: index.html");
+    }
+	else{
 
 $query = "SELECT * FROM `Usuario` WHERE `id_usuario`='$id_usuario' and `password`='$password'";
 $result = mysql_query($query, $conexion);
@@ -36,4 +39,7 @@ while ($row = mysql_fetch_assoc($result)) {
 		header("Location: trabajador.php");
     }
 }
+
+	}
+
 ?>
