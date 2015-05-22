@@ -1,7 +1,27 @@
+<?php 
+	@session_start();
+	include("funciones_mysql.php");
+	$conexion=conectar();
+	
+	$id_trabajador=$_SESSION['usuario'];
+	
+	 $sql = "SELECT * FROM `Trabajador` WHERE `id_trabajador`='$trabajador'";
+     $resultado = query($sql, $conexion);
+     $campo = mysql_fetch_array($resultado);
+     $correo = $campo['correo'];
+	 $nombre = $campo['nombre'];
+	 $apellidos = $campo['apellidos'];
+	 $nombre_completo=$nombre . " " . $apellidos; 
+?>
 
-<!DOCTYPE html PUBLIC>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<html xmlns="" xml:lang="es">
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="images/icono.ico">
+<meta http-equiv="Content-Type" content="text/html"/>
+  <title>Usuario</title>
+  <link rel="stylesheet" type="text/css" href="estiloUsuario.css" />
+</head>
  <script type="text/javascript">
 
 
@@ -11,35 +31,17 @@ function valida_envia(){
 var regexp = /^[0-9a-zA-Z._.-]+\@[0-9a-zA-Z._.-]+\.[0-9a-zA-Z]+$/;
 
 
-if (document.form.nombreid.value.length==0){
-alert("Tiene que escribir el Id de la consulta")
-document.form.nombreid.focus()
-return 0;
-}
-if ((regexp.test(document.form.email.value) == 0) || (document.form.email.value.length = 0)){
-alert("Introduzca una direcciÃ³n de email vÃ¡lida");
-document.form.email.focus();
-return 0;
-} else {
-var c_email=true;
-}
-
-
-if (document.form.area.selectedIndex==0){
-alert("Tiene que seleccionar un Area ")
-document.form.area.focus()
-return 0;
-}
-
 if (document.form.espec.selectedIndex==0){
 alert("Tiene que seleccionar una especialidad ")
 document.form.espc.focus()
 return 0;
 }
 
-
-
-
+if (document.form.desc.selectedIndex==0){
+alert("Tiene que seleccionar una descripcion")
+document.form.espc.focus()
+return 0;
+}
 
 
 //PAra enviar el formulario
@@ -47,94 +49,82 @@ document.form.submit();
 alert("tu consulta fue enviada ")
 }
 
+
 </script>
  
  
- 
- 
- 
- 
- 
- 
- 
- 
-<head>
-  <title>Trabajador</title>
-  <link rel="stylesheet" type="text/css" href="estiloUsuario.css" />
-</head>
 <body>
-<h1>Mesa de ayuda secci&oacute;n Trabajador</h1>
+ <div id="centro">
+<h1>Mesa de ayuda secci&oacute;n usuario</h1>
  
 <div id="columna">
 <h2>Men&uacute;</h2>
 <ul>
-  <li><a href="#marco1">Notificaciones </a></li>
-  <li><a href="#marco2">Respoder consultas</a> </li>
-  <li><a href="#marco3">Cerrar sesi&oacute;n </a></li>
+  <li><a href="#marco1">Notificaciones</a></li>
+  <br>
+  <li><a href="#marco3">Cerrar sesi&oacute;n </a></li>  
 </ul>
 </div>
  
  
  
  
- 
+
 <div id="contenido">
 <div id="marco1">
-<h2>Notificaciones </h2>
-<table>
+<br />
+<h2>Consultas anteriores </h2>
+<div id="barra">
+        <div class="CSSTableGenerator" >
+ <table>
 
-<?php
+                <tr>
 
-/* Abrimos la base de datos */
-  $conx = mysql_connect ("localhost","root","");
-  if (!$conx) die ("Error al abrir la base <br/>". mysql_error()); 
-  mysql_select_db("test") OR die("Connection Error to Database");    
-
-/* Realizamos la consulta SQL */
-$sql="select * from agenda";
-$result= mysql_query($sql) or die(mysql_error());
-if(mysql_num_rows($result)==0) die("No hay registros para mostrar");
-
-/* Desplegamos cada uno de los registros dentro de una tabla */  
-echo "<table border=1 cellpadding=4 cellspacing=0>";
-
-/*Priemro los encabezados*/
- echo "<tr>
-         <th colspan=5> Agenda personal </th>
-       <tr>
-         <th> ID </th><th> Nombre </th><th> Email </th>
-         <th> Teléfono </th><th> Fecha de N. </th>
-      </tr>";
-
-/*Y ahora todos los registros */
-while($row=mysql_fetch_array($result))
-{
- echo "<tr>
-         <td align='right'> $row[id] </td>
-         <td> $row[nombre] </td>
-         <td> $row[email] </td>
-         <td> $row[telefono] </td>
-         <td> $row[fechanac] </td>
-      </tr>";
-}
-echo "</table>";
-
-?>
+                    <td width="15%">Consulta No.</td>
+                    <td width="50%">Nombre</td>
+                    <td width="15%">Fecha</td>
+                    <td width="20%">Revisar</td>
 
 
+                </tr>
 
+                <?php
+//Obtener Datos de la empresa a cambiar "tabla clientes"
+                $sql = "SELECT * FROM `Enlace` WHERE `id_trabajador` = '$id_trabajador' ORDER BY id_enlace DESC";
+                $resultado = query($sql, $conexion);
+                while ($campo = mysql_fetch_array($resultado)) {
+					$id_enlace = $campo['id_enlace'];
+                    $id_usuario = $campo['id_usuario'];
+                    $fecha = $campo['fecha'];
+					
+					$sql2 = "SELECT * FROM `Usuario` WHERE `id_usuario` = '$id_usuario'";
+					$resultado2 = query($sql2, $conexion);
+					$campo = mysql_fetch_array($resultado2);
+					
+						$nombre = $campo['nombre'];
+						$apellidos = $campo['apellidos'];
+
+                    echo "<tr>";
+
+                    echo "<td align='center'>" . $id_enlace . "</td>";
+
+                    echo "<td align='center'>" . $nombre . " " . $apellidos . "</td>";
+
+                    echo "<td>" . $fecha . "</td>";
+
+                    echo "<td height='35px'> " . "<a href='trabajador.php?id_enlace=$id_enlace#marco4'>Revisar</a></td>";
+                    echo "</tr>";
+					
+                }
+                ?>
+            </table>
 </div>
- 
- 
- 
- 
- 
- 
- 
+</div>
+</div> 
  
 <div id="marco2">
-<h2>Responder consultas </h2>
-<form id="form" name="form" method="POST" action="">
+<h2>Realizar consulta </h2>
+<form id="form" name="form" method="POST" action="especialidad.php">
 
 
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" top= "80px">
@@ -142,8 +132,8 @@ echo "</table>";
 <td width="504"><table width="560" border="0" align="left" cellpadding="0" cellspacing="0">
 <tr>
 <td width="270" align="left" valign="top">
-<label>*IdConsulta:<br />
-<input name="nombreid" type="text" class="campo" id="nombreid" />
+<label>*Nombre:<br />
+<input name="nombre" type="text" class="campo" id="nombre" value="<?php echo $nombre_completo;?>" disabled="disabled"/>
 </label>
 </td>
 <td width="20" align="left" valign="top">&nbsp;</td>
@@ -154,7 +144,7 @@ echo "</table>";
 <tr>
 <td width="270" align="left" valign="top">
 <label>*Email:<br />
-<input name="email" type="text" class="campo" id="email" />
+<input name="email" type="text" class="campo" id="email" value="<?php echo $correo;?>" disabled="disabled"/>
 </label>
 </td>
 </tr>
@@ -163,35 +153,28 @@ echo "</table>";
 <tr>
 <td width="270" align="left" valign="top">
 <label for="area">*&Aacute;rea:</label>
-<select name="area" class="campo" id="area">
-<option value="0" selected="selected">Seleccione ...</option>
-<option value="Area1">&Aacute;rea 1</option>
-<option value="Area2">&Aacute;rea 2</option>
-<option value="Area3">&Aacute;rea 3</option>
-<option value="Area4">&Aacute;rea 4</option>
-<option value="Area5">&Aacute;rea 5</option>
-</select>
+<?
+                $sql = "SELECT `area` FROM `Trabajador` ORDER BY `area`";
+                $resultado = query($sql, $conexion);
+				
+                //Generamos el menu desplegable
+                echo '<select id="bajaselect" name="area">';
+                while ($campo = mysql_fetch_array($resultado)) {
+                    echo '<option>' . $campo["area"] ;
+                }
+                echo '</select>';
+				?>
 </td>
 </tr>
 
 <tr>
-<td width="270" align="left" valign="top">
-<label for="espec">*Especialidad:</label>
-<select name="espec" class="campo" id="espec">
-<option value="0" selected="selected">Seleccione ...</option>
-<option value="Especialidad1">Especialidad 1</option>
-<option value="Especialidad2">Especialidad 2</option>
-<option value="Especialidad3">Especialidad 3</option>
-<option value="Especialidad4">Especialidad 4</option>
-<option value="Especialidad5">Especialidad 5</option>
-</select>
-</td>
+
 </tr>
 
 <tr>
 <td width="250" align="left" valign="top">&nbsp;
-<label for="message">Respuesta:</label> 
-<textarea name="message" cols="40" rows="6" required></textarea>	
+<label for="message">Descripci&oacute;n:</label> 
+<textarea name="descripcion" cols="40" rows="6"></textarea>	
 </label>
 </td>
 </tr>
@@ -203,7 +186,7 @@ echo "</table>";
 <tr>
 
 <td width="20" align="left" valign="top">&nbsp;</td>
-<td align="right" valign="top"><input name="Bot&oacute;n" type="button" onclick="valida_envia()" class="bt" id="Enviar" value="Enviar" / />
+<td align="center" valign="top"><input name="Bot&oacute;n" type="submit" onclick="valida_envia()" class="bt" id="Enviar" value="Enviar" / />
 <br /></td>
 </tr>
 </table></td>
@@ -216,15 +199,121 @@ echo "</table>";
 
 
 
-
-
 </div>
 
 
 <div id="marco3">
+<br />
 <h2>Cerrar sesi&oacute;n</h2>
+
+    <body>		
+				<br />
+				<br />
+				<br />
+                <h2>Realmente desea cerrar sesi&oacute;n?</h2>
+				<div class="centrar">
+				<br />
+				<br />
+				<br />
+				<a href="cerrarsesion.php" class="bt">Si</a>
+				</div>
+
+                </body>
+                </html>
  </div>
-</div>
  
+ <div id="marco4"> 
+ <br />
+<h2>Revisi&oacute;n </h2>
+
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0" top= "80px">
+<tr>
+<td width="504"><table width="560" border="0" align="left" cellpadding="0" cellspacing="0">
+<tr>
+<td width="270" align="left" valign="top">
+<label>*Nombre:<br />
+<input name="nombre" type="text" class="campo" id="nombre" value="<?php 
+				$id_enlace = $_GET['id_enlace'];
+                $sql = "SELECT * FROM `Enlace` WHERE id_enlace='$id_enlace'";
+                $resultado = query($sql, $conexion); 
+				$campo = mysql_fetch_array($resultado);
+				$id_usuario = $campo['id_usuario'];
+				$descripcion = $campo['descripcion'];				
+				
+				$sql = "SELECT * FROM `Usuario` WHERE `id_usuario`='$id_usuario'";
+                $resultado = query($sql, $conexion);
+				$campo = mysql_fetch_array($resultado);
+				$nombre = $campo['nombre'];
+				$apellidos = $campo['apellidos'];
+				$correo = $campo['correo'];
+				$nombrec = $nombre . " " . $apellidos;
+				echo $nombrec;
+				
+																	?>" disabled="disabled"/>
+</label>
+</td>
+<td width="20" align="left" valign="top">&nbsp;</td>
+<td width="270" align="left" valign="top">
+</tr>
+
+
+<tr>
+<td width="270" align="left" valign="top">
+<label>*Email:<br />
+<input name="email" type="text" class="campo" id="email" value="<?php echo $correo;?>" disabled="disabled"/>
+</label>
+</td>
+</tr>
+
+
+<tr>
+<td width="270" align="left" valign="top">
+
+
+</tr>
+
+<tr>
+
+</tr>
+
+<tr>
+<td width="250" align="left" valign="top">&nbsp;
+<label for="message">Mensajes:</label>
+<?php 
+
+	$_SESSION['id_enlace']=$id_enlace;
+echo '<form action="actualizac_trabajador.php" method="POST">';
+?>
+<textarea name="descripcion" cols="40" rows="6"><?php echo $descripcion;?></textarea>	
+</label>
+</td>
+</tr>
+
+</table></td>
+</tr>
+
+<td width="504"><table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+<tr>
+
+<td width="20" align="left" valign="top">&nbsp;</td>
+<td align="center" valign="top">
+<input  type="submit" id="Enviar" class="bt" value="Enviar" / />
+<br /></td>
+</tr>
+</table></td>
+</tr>
+</table>
+<input type="hidden" name="MM_insert" value="form1" />
+
+</form>
+
+
+<?php 
+ 
+	$id_enlace = $_GET['id_enlace'];	
+ 
+ ?>
+</div>
+ </div>
 </body>
 </html>
