@@ -226,3 +226,8 @@ box-shadow: 0 0 5px #d45252; border-color: #b03535;
 .CSSTableGenerator tr:first-child td:last-child{
     border-width:0px 0px 1px 1px;
 }
+
+.centrar
+{
+	text-align: center;
+}
