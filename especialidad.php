@@ -6,7 +6,9 @@
 		
 	$usuario=$_SESSION['usuario'];
 	
-	$area=$_POST['area'];
+	$_SESSION['area']=$_POST['area'];
+	$area = $_SESSION['area'];
+	$_SESSION['descripcion']=$_POST['descripcion'];
 
 
 ?>
@@ -54,7 +56,7 @@ border-radius: 25px;
 <br />
 <br />
 <br />
-<form>
+<form method="POST" action="consulta.php">
 <?
                 $sql = "SELECT * FROM `Trabajador` WHERE `area`='$area'";
                 $resultado = query($sql, $conexion);
